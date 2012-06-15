@@ -1,0 +1,5 @@
+---
+layout: plain
+---
+User-agent: *
+Disallow:

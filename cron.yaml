@@ -1,0 +1,4 @@
+cron:
+#- description: scout one way rental deals
+#  url: /joyride/scout
+#  schedule: every 16 hours

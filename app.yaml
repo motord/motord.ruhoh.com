@@ -1,0 +1,67 @@
+application: k2gatsby
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+default_expiration: "5d"
+
+builtins:
+- appstats: on
+- admin_redirect: on
+- deferred: on
+- remote_api: on
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: markupsafe
+  version: "0.15"
+
+inbound_services:
+- warmup
+
+handlers:
+- url: /money/.*
+  script: application.app
+
+- url: /assets
+  static_dir: compiled/assets
+
+- url: /data
+  static_dir: compiled/data
+
+- url: /(.*)/(.*)
+  static_files: compiled/\1/\2/index.html
+  upload: compiled/(.*)/(.*)/index.html
+
+- url: /
+  static_files: compiled/index.html
+  upload: compiled/index.html
+
+- url: /(rss.xml|index.html|robots.txt)
+  static_files: compiled/\1
+  upload: compiled/.*
+
+- url: /(.*)
+  static_files: compiled/\1/index.html
+  upload: compiled/(.*)/index.html
+
+skip_files: |
+   ^(.*/)?(
+   (app\.yaml)|
+   (app\.yml)|
+   (index\.yaml)|
+   (index\.yml)|
+   (#.*#)|
+   (.*~)|
+   (.*\.py[co])|
+   (.*/RCS/.*)|
+   (\..*)|
+   (plugins\/.*)|
+   (pages\/.*)|
+   (partials\/.*)|
+   (posts\/.*)|
+   (themes\/.*)|
+   (widgets\/.*)|
+   )$
