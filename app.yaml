@@ -29,7 +29,7 @@ handlers:
   static_files: compiled/index.html
   upload: compiled/.*
 
-- url: /([0-9a-zA-z_-]*)
+- url: /([0-9a-zA-z_-]*)/?
   static_files: compiled/\1/index.html
   upload: compiled/.*
 

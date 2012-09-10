@@ -17,7 +17,7 @@ from application import views
 app.add_url_rule('/_ah/warmup', 'warmup', view_func=views.warmup)
 
 # Examples list page
-app.add_url_rule('/api/<int:id>', 'read', view_func=views.read, methods=['GET'])
+app.add_url_rule('/api/', 'read', view_func=views.read, methods=['GET'])
 app.add_url_rule('/api/', 'create', view_func=views.create, methods=['POST'])
 app.add_url_rule('/api/<int:id>', 'update', view_func=views.update, methods=['PUT'])
 app.add_url_rule('/api/<int:id>', 'delete', view_func=views.delete, methods=['DELETE'])

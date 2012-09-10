@@ -7,10 +7,59 @@ layout : default
 </div>
 
 <div class="row">
-    <div class="span12">
+    <div class="span4">
         <div id="taskapp">
+            <div class="content">
+
+                <div id="create-task">
+                    <input id="new-task" placeholder="What needs to be done?" type="text" />
+                    <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+                </div>
+
+                <div id="tasks">
+                    <ul id="task-list"></ul>
+                </div>
+
+                <div id="task-stats"></div>
+
+            </div>
 
         </div>
+    </div>
+    <div class="span8">
         {{{ content }}}
     </div>
 </div>
+
+<!-- Templates -->
+
+<script type="text/template" id="item-template">
+    <div class="task <%= accomplished ? 'accomplished' : '' %>">
+        <div class="display">
+            <input class="check" type="checkbox" <%= accomplished ? 'checked="checked"' : '' %> />
+            <label class="task-content"><%= todo %></label>
+            <span class="task-destroy"></span>
+        </div>
+        <div class="edit">
+            <input class="task-input" type="text" value="<%= todo %>" />
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="stats-template">
+    <% if (total) { %>
+        <span class="task-count">
+          <span class="number"><%= remaining %></span>
+          <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
+        </span>
+    <% } %>
+    <% if (accomplished) { %>
+        <span class="task-clear">
+          <a href="#">
+              Clear <span class="number-done"><%= accomplished %></span>
+              completed <span class="word-done"><%= accomplished == 1 ? 'item' : 'items' %></span>
+          </a>
+        </span>
+    <% } %>
+</script>
+

@@ -25,9 +25,9 @@ def say_hello(username):
     return jsonify(test=request.referrer)
 
 @referrer_required
-def read(referrer, id):
+def read(referrer):
     """List all tasks"""
-    q=Task.gql("WHERE referrer = :1", referrer)
+    q=Task.gql("WHERE referrer = :1 ORDER BY created", referrer)
     tasks = []
     for task in q:
         tasks.append({'id' : task.key().id(), 'todo' : task.todo, 'accomplished' : task.accomplished})
