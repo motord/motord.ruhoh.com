@@ -53,6 +53,12 @@ def delete(referrer, id):
     task=Task.get_by_id(id)
     task.delete()
 
+@referrer_required
+def authorize(referrer):
+    if not users.get_current_user():
+        return jsonify(authorized=False, uri=users.create_login_url(referrer))
+    return jsonify(authorized=True, uri=users.create_logout_url(referrer))
+
 
 @admin_required
 def admin_only():

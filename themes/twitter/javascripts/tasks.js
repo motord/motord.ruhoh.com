@@ -15,6 +15,39 @@ $(function(){
 
     // Task Model
     // ----------
+    window.Authorization =Backbone.Model.extend({
+        defaults: {
+            authorized: false,
+            uri: null
+        },
+
+        initialize: function () {
+            this.fetch();
+        },
+
+        url: '/authorize'
+    });
+
+    window.AuthorizationView = Backbone.View.extend({
+        tagName: 'span',
+        className: 'task-authorize',
+        template: _.template($('#authorization-template').html()),
+
+        initialize: function() {
+            _.bindAll(this, 'render', 'close');
+            this.model.bind('change', this.render);
+            this.model.view = this;
+        },
+
+        render: function() {
+            $(this.el).html(this.template(this.model.toJSON()));
+            return this;
+        }
+
+
+    });
+
+    window.Auth=new Authorization;
 
     // Our basic **Task** model has `todo`, `created`, and `accomplished` attributes.
     window.Task = Backbone.Model.extend({
@@ -173,8 +206,7 @@ $(function(){
         // Delegated events for creating new items, and clearing completed ones.
         events: {
             "keypress #new-task":  "createOnEnter",
-            "keyup #new-task":     "showTooltip",
-            "click .task-clear a": "clearCompleted"
+            "keyup #new-task":     "showTooltip"
         },
 
         // At initialization we bind to the relevant events on the `Tasks`
@@ -229,12 +261,6 @@ $(function(){
             if (e.keyCode != 13) return;
             Tasks.create(this.newAttributes());
             this.input.val('');
-        },
-
-        // Clear all done task items, destroying their models.
-        clearCompleted: function() {
-            _.each(Tasks.accomplished(), function(task){ task.clear(); });
-            return false;
         },
 
         // Lazily show the tooltip that tells you to press `enter` to save

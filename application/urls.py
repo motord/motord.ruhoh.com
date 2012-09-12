@@ -22,6 +22,8 @@ app.add_url_rule('/api/', 'create', view_func=views.create, methods=['POST'])
 app.add_url_rule('/api/<int:id>', 'update', view_func=views.update, methods=['PUT'])
 app.add_url_rule('/api/<int:id>', 'delete', view_func=views.delete, methods=['DELETE'])
 
+app.add_url_rule('/authorize', 'authorize', view_func=views.authorize, methods=['GET'])
+
 # Contrived admin-only view example
 app.add_url_rule('/admin_only', 'admin_only', view_func=views.admin_only)
 

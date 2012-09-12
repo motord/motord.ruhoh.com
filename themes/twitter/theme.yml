@@ -5,6 +5,10 @@
       "style.css"
     ],
    
+    "gap": [
+      "tasks.css"
+    ],
+
     "widgets" : {
       "google_prettify" : "twitter-bootstrap.css"
     }

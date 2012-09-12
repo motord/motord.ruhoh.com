@@ -36,6 +36,6 @@ def referrer_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
         if not request.referrer:
-            return redirect(users.create_login_url(request.url))
+            return func('http://none.com', *args, **kwargs)
         return func(request.referrer, *args, **kwargs)
     return decorated_view

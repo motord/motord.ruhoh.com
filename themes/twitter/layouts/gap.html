@@ -3,12 +3,17 @@ layout : default
 ---
 
 <div class="page-header">
-    <h1>{{ page.title }} {{# page.tagline }} <small>{{ . }}</small>{{/ page.tagline }}</h1>
+    <h1>{{#page.chinese}}{{ page.chinese }}{{/page.chinese}}{{^page.chinese}}{{ page.title }}{{/page.chinese}} {{# page.tagline }} <small>{{ . }}</small>{{/ page.tagline }}</h1>
 </div>
 
 <div class="row">
     <div class="span4">
         <div id="taskapp">
+            <div class="title">
+                <span class="task-title">Tasks</span>
+                <span class="task-authorize">
+                </span>
+            </div>
             <div class="content">
 
                 <div id="create-task">
@@ -53,13 +58,16 @@ layout : default
           <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
         </span>
     <% } %>
-    <% if (accomplished) { %>
-        <span class="task-clear">
-          <a href="#">
-              Clear <span class="number-done"><%= accomplished %></span>
-              completed <span class="word-done"><%= accomplished == 1 ? 'item' : 'items' %></span>
-          </a>
-        </span>
-    <% } %>
 </script>
 
+<script type="text/template" id="authorization-template">
+    <% if (authorized) { %>
+        <a href="<%= uri %>">
+            Logout
+        </a>
+    <% } else { %>
+    <a href="<%= uri %>">
+        Login
+    </a>
+    <% } %>
+</script>
