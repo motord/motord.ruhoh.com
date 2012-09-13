@@ -34,7 +34,7 @@ $(function(){
         template: _.template($('#authorization-template').html()),
 
         initialize: function() {
-            _.bindAll(this, 'render', 'close');
+            _.bindAll(this, 'render');
             this.model.bind('change', this.render);
             this.model.view = this;
         },
@@ -125,7 +125,7 @@ $(function(){
         // The DOM events specific to an item.
         events: {
             "click .check"              : "toggleAccomplished",
-            "dblclick div.task-content" : "edit",
+            "dblclick label.task-content" : "edit",
             "click span.task-destroy"   : "clear",
             "keypress .task-input"      : "updateOnEnter"
         },
@@ -213,6 +213,9 @@ $(function(){
         // collection, when items are added or changed. Kick things off by
         // loading any preexisting tasks that might be saved in *localStorage*.
         initialize: function() {
+            var view = new AuthorizationView({model: Auth});
+            this.$(".task-authorize").append(view.render().el);
+
             _.bindAll(this, 'addOne', 'addAll', 'render');
 
             this.input    = this.$("#new-task");

@@ -8,6 +8,7 @@ App Engine datastore models
 
 from google.appengine.ext import db
 from flask import jsonify
+from google.appengine.api import users
 
 class Task(db.Model):
     todo = db.StringProperty(required=True)
@@ -22,7 +23,7 @@ class Task(db.Model):
 
     @classmethod
     def construct_from_json(cls, json, referrer):
-        return Task(todo = json['todo'], referrer=referrer, accomplished = json['accomplished'])
+        return Task(todo = json['todo'], referrer=referrer, author=users.get_current_user(), accomplished = json['accomplished'])
 
     def update_with_json(self, json):
         self.todo=json['todo']

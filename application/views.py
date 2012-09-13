@@ -52,6 +52,7 @@ def update(referrer, id):
 def delete(referrer, id):
     task=Task.get_by_id(id)
     task.delete()
+    return 'DELETED'
 
 @referrer_required
 def authorize(referrer):

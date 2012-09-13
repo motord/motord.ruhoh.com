@@ -50,6 +50,8 @@
 
 #task-list {
     margin-top: 10px;
+    list-style: none;
+    margin-left: 0;
 }
 #task-list li {
     padding: 0 20px 0 0;
@@ -78,14 +80,14 @@
     display: block;
 }
 #task-list .editing input {
-    width: 444px;
+    width: 222px;
     font-size: 24px;
     font-family: inherit;
     margin: 0;
     line-height: 1.6em;
     border: 0;
     outline: none;
-    padding: 10px 7px 0px 27px;
+    padding: 10px 7px 10px 27px;
     border: 1px solid #999999;
     -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
@@ -98,7 +100,10 @@
     margin: 0 10px 0 7px;
     float: left;
 }
-#task-list .done .task-content {
+.task-content {
+    display: inline;
+}
+#task-list .accomplished .task-content {
     text-decoration: line-through;
     color: #777777;
 }
