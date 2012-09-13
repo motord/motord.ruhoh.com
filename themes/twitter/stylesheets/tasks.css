@@ -96,12 +96,9 @@
 }
 #task-list .check {
     position: relative;
-    top: 9px;
+    top: 12px;
     margin: 0 10px 0 7px;
     float: left;
-}
-.task-content {
-    display: inline;
 }
 #task-list .accomplished .task-content {
     text-decoration: line-through;

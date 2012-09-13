@@ -221,7 +221,7 @@ $(function(){
             this.input    = this.$("#new-task");
 
             Tasks.bind('add',     this.addOne);
-            Tasks.bind('refresh', this.addAll);
+            Tasks.bind('reset', this.addAll);
             Tasks.bind('all',     this.render);
 
             Tasks.fetch();
