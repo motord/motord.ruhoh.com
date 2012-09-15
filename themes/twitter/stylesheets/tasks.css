@@ -36,6 +36,7 @@
     -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    margin-top: 10px;
 }
 #create-task input::-webkit-input-placeholder {
     font-style: italic;

@@ -17,6 +17,7 @@ $(function(){
     // ----------
     window.Authorization =Backbone.Model.extend({
         defaults: {
+            authenticated: false,
             authorized: false,
             uri: null
         },
@@ -130,6 +131,7 @@ $(function(){
             "keypress .task-input"      : "updateOnEnter"
         },
 
+        readonly_template: _.template($('#item-template-readonly').html()),
         // The TaskView listens for changes to its model, re-rendering. Since there's
         // a one-to-one correspondence between a **Task** and a **TaskView** in this
         // app, we set a direct reference on the model for convenience.
@@ -137,11 +139,17 @@ $(function(){
             _.bindAll(this, 'render', 'close');
             this.model.bind('change', this.render);
             this.model.view = this;
+            Auth.bind('change', this.render);
         },
 
         // Re-render the contents of the task item.
         render: function() {
-            $(this.el).html(this.template(this.model.toJSON()));
+            if (Auth.get("authorized")){
+                $(this.el).html(this.template(this.model.toJSON()));
+            }
+            else {
+                $(this.el).html(this.readonly_template(this.model.toJSON()));
+            };
             this.setTodo();
             return this;
         },

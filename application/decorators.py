@@ -39,3 +39,28 @@ def referrer_required(func):
             return func('http://none.com', *args, **kwargs)
         return func(request.referrer, *args, **kwargs)
     return decorated_view
+
+def cached(timeout=720 * 3600, key='%s'):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            cache_key = key % request.referrer
+            rv = cache.get(cache_key)
+            if rv is not None:
+                return rv
+            rv = f(*args, **kwargs)
+            cache.set(cache_key, rv, timeout=timeout)
+            return rv
+        return decorated_function
+    return decorator
+
+def invalidate_cache(key='%s'):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            cache_key = key % request.referrer
+            rv = f(*args, **kwargs)
+            cache.delete(cache_key)
+            return rv
+        return decorated_function
+    return decorator

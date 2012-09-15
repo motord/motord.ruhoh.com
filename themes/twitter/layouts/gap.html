@@ -51,6 +51,15 @@ layout : default
     </div>
 </script>
 
+<script type="text/template" id="item-template-readonly">
+    <div class="task <%= accomplished ? 'accomplished' : '' %>">
+        <div class="display">
+            <input class="check" disabled="disabled" type="checkbox" <%= accomplished ? 'checked="checked"' : '' %> />
+            <label class="task-content-readonly"><%= todo %></label>
+        </div>
+    </div>
+</script>
+
 <script type="text/template" id="stats-template">
     <% if (total) { %>
         <span class="task-count">

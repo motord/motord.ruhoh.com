@@ -16,7 +16,7 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 from flask import render_template, flash, url_for, redirect, request,jsonify, current_app, json
 
 from models import Task
-from decorators import login_required, admin_required, referrer_required
+from decorators import login_required, admin_required, referrer_required, cached, invalidate_cache
 
 
 def say_hello(username):
@@ -25,6 +25,7 @@ def say_hello(username):
     return jsonify(test=request.referrer)
 
 @referrer_required
+@cached(key='%s')
 def read(referrer):
     """List all tasks"""
     q=Task.gql("WHERE referrer = :1 ORDER BY created", referrer)
@@ -35,6 +36,7 @@ def read(referrer):
 
 @login_required
 @referrer_required
+@invalidate_cache()
 def create(referrer):
     task=Task.construct_from_json(request.json, referrer)
     task.put()
@@ -42,6 +44,7 @@ def create(referrer):
 
 @login_required
 @referrer_required
+@invalidate_cache()
 def update(referrer, id):
     task=Task.get_by_id(id)
     task.update_with_json(request.json)
@@ -49,6 +52,7 @@ def update(referrer, id):
 
 @login_required
 @referrer_required
+@invalidate_cache()
 def delete(referrer, id):
     task=Task.get_by_id(id)
     task.delete()
@@ -57,9 +61,24 @@ def delete(referrer, id):
 @referrer_required
 def authorize(referrer):
     if not users.get_current_user():
-        return jsonify(authorized=False, uri=users.create_login_url(referrer))
-    return jsonify(authorized=True, uri=users.create_logout_url(referrer))
+        return not_authorized(referrer)
+    return authorized(referrer)
 
+@cached(key='%s/not_authorized')
+def not_authorized(referrer):
+    return jsonify(authenticated=False, authorized=False, uri=users.create_login_url(referrer))
+
+@cached(key='%s/authorized')
+def authorized(referrer):
+    return jsonify(authenticated=True, authorized=True, uri=users.create_logout_url(referrer))
+
+@cached(key='%s/not_authenticated')
+def not_authenticated(referrer):
+    return jsonify(authenticated=False, authorized=False, uri=users.create_login_url(referrer))
+
+@cached(key='%s/authenticated')
+def authenticated(referrer):
+    return jsonify(authenticated=True, authorized=True, uri=users.create_logout_url(referrer))
 
 @admin_required
 def admin_only():
