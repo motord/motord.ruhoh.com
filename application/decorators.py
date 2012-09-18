@@ -70,7 +70,7 @@ def invalidate_cache(key='%s'):
 def authorization_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        cache_key='%s/users' % request.referrer
+        cache_key='%s/emails' % request.referrer
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if users.is_current_user_admin():
