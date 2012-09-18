@@ -13,7 +13,8 @@ from google.appengine.api import users
 class Task(db.Model):
     todo = db.StringProperty(required=True)
     referrer = db.URLProperty(required=True)
-    author = db.UserProperty()
+    author = db.UserProperty(auto_current_user_add=True)
+    editor = db.UserProperty(auto_current_user=True)
     accomplished = db.BooleanProperty(required=True, default=False)
     created = db.DateTimeProperty(auto_now_add=True)
     modified = db.DateTimeProperty(auto_now=True)
@@ -23,10 +24,13 @@ class Task(db.Model):
 
     @classmethod
     def construct_from_json(cls, json, referrer):
-        return Task(todo = json['todo'], referrer=referrer, author=users.get_current_user(), accomplished = json['accomplished'])
+        return Task(todo = json['todo'], referrer=referrer, accomplished = json['accomplished'])
 
     def update_with_json(self, json):
         self.todo=json['todo']
         self.accomplished=json['accomplished']
         self.put()
         return self
+
+class Authorization(db.Model):
+    emails=db.ListProperty(db.Email)

@@ -16,7 +16,7 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 from flask import render_template, flash, url_for, redirect, request,jsonify, current_app, json
 
 from models import Task
-from decorators import login_required, admin_required, referrer_required, cached, invalidate_cache
+from decorators import login_required, admin_required, authorization_required, referrer_required, cached, invalidate_cache
 
 
 def say_hello(username):
@@ -34,24 +34,24 @@ def read(referrer):
         tasks.append({'id' : task.key().id(), 'todo' : task.todo, 'accomplished' : task.accomplished})
     return current_app.response_class(json.dumps(tasks, indent=None if request.is_xhr else 2), mimetype='application/json')
 
-@login_required
 @referrer_required
+@authorization_required
 @invalidate_cache()
 def create(referrer):
     task=Task.construct_from_json(request.json, referrer)
     task.put()
     return task.jsonify()
 
-@login_required
 @referrer_required
+@authorization_required
 @invalidate_cache()
 def update(referrer, id):
     task=Task.get_by_id(id)
     task.update_with_json(request.json)
     return task.jsonify()
 
-@login_required
 @referrer_required
+@authorization_required
 @invalidate_cache()
 def delete(referrer, id):
     task=Task.get_by_id(id)
