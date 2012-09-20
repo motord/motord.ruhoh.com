@@ -104,6 +104,8 @@
 #task-list li label {
     word-break: break-word;
     padding-top: 12px;
+    padding-left: 15px;
+    margin-left: 15px;
     display: block;
     line-height: 1.2;
     -webkit-transition: color 0.4s;
