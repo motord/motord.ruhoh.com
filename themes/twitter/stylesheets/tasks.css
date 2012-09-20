@@ -121,7 +121,7 @@
 #task-list .task-destroy {
     position: absolute;
     right: 5px;
-    top: 14px;
+    top: 10px;
     display: none;
     cursor: pointer;
     width: 20px;
