@@ -114,7 +114,7 @@
     -o-transition: color 0.4s;
     transition: color 0.4s;
 }
-#task-list .accomplished .task-content {
+#task-list .accomplished .task-content, #task-list .accomplished .task-content-readonly {
     text-decoration: line-through;
     color: #777777;
 }

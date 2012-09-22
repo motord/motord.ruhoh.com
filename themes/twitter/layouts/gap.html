@@ -70,13 +70,19 @@ layout : default
 </script>
 
 <script type="text/template" id="authorization-template">
-    <% if (authorized) { %>
-        <a href="<%= uri %>">
-            Logout
-        </a>
+    <% if (authenticated) { %>
+        <% if (authorized) { %>
+            <a href="<%= uri %>">
+                Logout
+            </a>
+        <% } else { %>
+            <a href="<%= uri %>">
+                Not Authorized/Logout
+            </a>
+        <% } %>
     <% } else { %>
-    <a href="<%= uri %>">
-        Login
-    </a>
+        <a href="<%= uri %>">
+            Login
+        </a>
     <% } %>
 </script>

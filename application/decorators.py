@@ -92,11 +92,11 @@ def authorization_required(func):
             auth=Authorization.get_by_key_name(request.referrer)
             if auth is not None:
                 cache.set(cache_key, auth)
-                try:
-                    i=auth.emails.index(email)
-                except ValueError:
-                    i=-1
-                if i <> -1:
-                    return func(*args, **kwargs)
+        try:
+            i=auth.emails.index(email)
+        except ValueError:
+            i=-1
+        if i <> -1:
+            return func(*args, **kwargs)
         return redirect(users.create_login_url(request.url))
     return decorated_view

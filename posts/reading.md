@@ -1,6 +1,6 @@
 ---
 title:
-chinese: '万卷书'
+chinese: '翻翻'
 date: '2012-09-19'
 description:
 categories:
