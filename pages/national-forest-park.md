@@ -357,9 +357,10 @@ layout: 'map'
            {"park":"金湖杨国家森林公园", "lng":76.987802, "lat":38.035853},
            {"park":"天生桥国家森林公园", "lng":113.894193, "lat":38.869548}
            ];
+    var iconForest = new BMap.Icon("/assets/media/forest_icon.png",new BMap.Size(24, 24));
     parks.forEach(function(element, index, array) {
           var point = new BMap.Point(element.lng, element.lat);
-          var marker = new BMap.Marker(point);  // 创建标注
+          var marker = new BMap.Marker(point, {icon: iconForest});  // 创建标注
           map.addOverlay(marker);              // 将标注添加到地图中
 
             marker.addEventListener("click", function(){
