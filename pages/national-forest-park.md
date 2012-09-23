@@ -20,6 +20,8 @@ parks.forEach(function(element, index, array) {
     myGeo.getPoint(element, function(point){
       if (point) {
         console.log('{"park":"'+element+'", "lng":'+point.lng+', "lat":'+point.lat+'}');
+      }else{
+        console.log('{"park":"'+element+'"}');
       }
     });
 });
