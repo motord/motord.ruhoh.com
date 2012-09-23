@@ -9,6 +9,10 @@
       "tasks.css"
     ],
 
+    "map": [
+      "map.css"
+    ],
+
     "widgets" : {
       "google_prettify" : "twitter-bootstrap.css"
     }
