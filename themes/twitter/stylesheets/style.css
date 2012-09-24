@@ -82,3 +82,6 @@ html, body {
   border:1px solid #4C964D;
   color:#FFF;
 }
+a[href$=".json"] {
+    color:#7cfc00;
+}

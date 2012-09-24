@@ -3,7 +3,7 @@ layout : default
 ---
 
 <div class="page-header">
-    <h1>{{#page.chinese}}{{ page.chinese }}{{/page.chinese}}{{^page.chinese}}{{ page.title }}{{/page.chinese}} {{# page.tagline }} <small>{{ . }}</small>{{/ page.tagline }}</h1>
+    <h1>{{#page.chinese}}{{ page.chinese }}{{/page.chinese}}{{^page.chinese}}{{ page.title }}{{/page.chinese}} {{#page.legend}}<img src="{{ page.legend }}" />{{/page.legend}} {{# page.tagline }} <small>{{ . }}</small>{{/ page.tagline }}</h1>
 </div>
 
 <div class="row">

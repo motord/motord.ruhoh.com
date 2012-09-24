@@ -1,3 +1,9 @@
 #query-route {
     margin-left: 24px;
 }
+#query-route .btn {
+    margin-bottom: 8px;
+}
+#query-route #navigate, #destination {
+    text-align: center;
+}
