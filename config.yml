@@ -7,7 +7,7 @@ production_url : http://gap.samdeha.com
 
 posts:
   permalink: /:categories/:title/
-  summary_lines: 20
+  summary_lines: 10
   latest: 10
 
 pages:

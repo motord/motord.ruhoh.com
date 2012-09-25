@@ -2,6 +2,7 @@
 title:
 description:
 layout: 'plain'
+data: 'json'
 ---
 [{"park":"蟒山国家森林公园", "lng":116.283574, "lat":40.261715},
 {"park":"上方山国家森林公园", "lng":115.829645, "lat":39.671165},

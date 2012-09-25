@@ -1,7 +1,11 @@
 {{#is_active_page }}
-  <li class="active"><a href="{{url}}" class="active">{{title}}</a></li>
+  {{^ data }}
+    <li class="active"><a href="{{url}}" class="active">{{title}}</a></li>
+  {{/ data }}
 {{/is_active_page}}
 
 {{^is_active_page}}
-  <li><a href="{{url}}">{{title}}</a></li>
+  {{^ data }}
+    <li><a href="{{url}}">{{title}}</a></li>
+  {{/ data }}
 {{/is_active_page }}
