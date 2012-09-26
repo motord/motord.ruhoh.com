@@ -18,7 +18,7 @@ description:
 
 {{# posts_latest }}
 <div class="post">
-  <h3 class="title"><i class="icon-leaf"></i><a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a> <span class="date">{{ date }}</span></h3>
+  <h3 class="title">{{#tasks}}<i class="icon-check"></i>{{/tasks}}{{^tasks}}<i class="icon-leaf"></i>{{/tasks}} <a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a> <span class="date">{{ date }}</span></h3>
 
   {{{ summary }}}
 

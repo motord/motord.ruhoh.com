@@ -3,7 +3,7 @@
   <h3>{{month}}</h3>
   <ul style="list-style: none;">
   {{#posts?to_posts}}
-    <li><i class="icon-leaf"></i> <span>{{date}}</span> &raquo; <a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a></li>
+    <li>{{#tasks}}<i class="icon-check"></i>{{/tasks}}{{^tasks}}<i class="icon-leaf"></i>{{/tasks}} <span>{{date}}</span> &raquo; <a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a></li>
   {{/posts?to_posts}}
   </ul>
 {{/months}}
