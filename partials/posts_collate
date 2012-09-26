@@ -1,9 +1,9 @@
 <h2>{{year}}</h2>
 {{#months}}
   <h3>{{month}}</h3>
-  <ul>
+  <ul style="list-style: none;">
   {{#posts?to_posts}}
-    <li><span>{{date}}</span> &raquo; <a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a></li>
+    <li><i class="icon-leaf"></i> <span>{{date}}</span> &raquo; <a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a></li>
   {{/posts?to_posts}}
   </ul>
 {{/months}}

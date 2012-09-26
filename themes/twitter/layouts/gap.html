@@ -10,7 +10,7 @@ layout : default
     <div class="span4">
         <div id="taskapp">
             <div class="title">
-                <span class="task-title">Tasks</span>
+                <i class="icon-check"></i><span class="task-title">Tasks</span>
                 <span class="task-authorize">
                 </span>
             </div>
@@ -72,16 +72,19 @@ layout : default
 <script type="text/template" id="authorization-template">
     <% if (authenticated) { %>
         <% if (authorized) { %>
-            <a href="<%= uri %>">
+            <a class="btn btn-primary" href="<%= uri %>">
                 Logout
             </a>
         <% } else { %>
-            <a href="<%= uri %>">
-                Not Authorized/Logout
+            <button class="btn btn-primary">
+                Authorize
+            </button>
+            <a class="btn" href="<%= uri %>">
+                Logout
             </a>
         <% } %>
     <% } else { %>
-        <a href="<%= uri %>">
+        <a class="btn btn-primary" href="<%= uri %>">
             Login
         </a>
     <% } %>

@@ -16,7 +16,7 @@ from google.appengine.ext import db
 
 from flask import render_template, flash, url_for, redirect, request,jsonify, current_app, json
 
-from models import Task, Authorization
+from models import Task, Authorization, AuthRequest
 from decorators import login_required, admin_required, authorization_required, referrer_required, cached, invalidate_cache, cache
 
 
@@ -91,6 +91,24 @@ def authorized(referrer):
 @cached(key='%s/not_authenticated')
 def not_authenticated(referrer):
     return jsonify(authenticated=False, authorized=False, uri=users.create_login_url(referrer))
+
+@referrer_required
+@login_required
+def authorization_request(referrer):
+    if not users.get_current_user():
+        return not_authenticated(referrer)
+    else:
+        ar=AuthRequest(referrer=referrer, email=db.Email(users.get_current_user().email()))
+        ar.put()
+        return authenticated_but_not_authorized(referrer)
+
+@admin_required
+def approve_authorization_request():
+    pass
+
+@admin_required
+def delete_authorization_request():
+    pass
 
 @admin_required
 def admin_only():

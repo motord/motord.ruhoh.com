@@ -1,9 +1,10 @@
 ---
+title:
 description:
+layout: 'data'
 ---
-
 <ul style="list-style: none;">
 {{# pages }}
-  {{> pages_list_icon }}
+  {{> data_tree }}
 {{/ pages }}
 </ul>

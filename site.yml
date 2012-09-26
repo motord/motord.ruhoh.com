@@ -14,5 +14,6 @@ navigation :
   - pages.html
   - national-forest-park.md
   - data/index.md
+  - admin.html
   - about.md
   

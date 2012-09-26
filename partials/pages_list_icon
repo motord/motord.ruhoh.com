@@ -1,0 +1,11 @@
+{{#is_active_page }}
+  {{^ data }}
+    <li class="active"><i class="icon-file"></i> <a href="{{url}}" class="active">{{title}}</a></li>
+  {{/ data }}
+{{/is_active_page}}
+
+{{^is_active_page}}
+  {{^ data }}
+    <li><i class="icon-file"></i> <a href="{{url}}">{{title}}</a></li>
+  {{/ data }}
+{{/is_active_page }}
