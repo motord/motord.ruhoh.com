@@ -41,8 +41,8 @@ layout: 'gap'
         }));
         var populateAsync = eval(Wind.compile("async", function () {
                var parks=$await(intersectAsync());
-               $("#zj-obscure").html(parks.zj.join(", "));
-               $("#js-obscure").html(parks.js.join(", "));
+               $("#zj-obscure").html(JSON.stringify(parks.zj));
+               $("#js-obscure").html(JSON.stringify(parks.js));
          }));
          populateAsync().start();
     </script>
