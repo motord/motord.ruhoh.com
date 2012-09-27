@@ -70,7 +70,7 @@ def invalidate_cache(key='%s'):
 def authorization_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        cache_key='%s/emails' % request.referrer
+        cache_key='%s/approved' % request.referrer
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if users.is_current_user_admin():
@@ -80,11 +80,11 @@ def authorization_required(func):
                     auth=Authorization(key_name=request.referrer)
                     auth.put()
             try:
-                i=auth.emails.index(email)
+                i=auth.approved.index(email)
             except ValueError:
                 i=-1
             if i==-1:
-                auth.emails.append(email)
+                auth.approved.append(email)
                 auth.put()
             cache.set(cache_key, auth)
             return func(*args, **kwargs)
@@ -93,7 +93,7 @@ def authorization_required(func):
             if auth is not None:
                 cache.set(cache_key, auth)
         try:
-            i=auth.emails.index(email)
+            i=auth.approved.index(email)
         except ValueError:
             i=-1
         if i <> -1:

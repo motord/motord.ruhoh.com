@@ -11,8 +11,6 @@ layout : default
         <div id="taskapp">
             <div class="title">
                 <i class="icon-check"></i><span class="task-title">Tasks</span>
-                <span class="task-authorize">
-                </span>
             </div>
             <div class="gist">
 
@@ -69,23 +67,41 @@ layout : default
     <% } %>
 </script>
 
-<script type="text/template" id="authorization-template">
-    <% if (authenticated) { %>
-        <% if (authorized) { %>
-            <a class="btn btn-primary" href="<%= uri %>">
-                Logout
-            </a>
-        <% } else { %>
-            <button class="btn btn-primary">
-                Authorize
-            </button>
-            <a class="btn" href="<%= uri %>">
-                Logout
-            </a>
-        <% } %>
-    <% } else { %>
-        <a class="btn btn-primary" href="<%= uri %>">
-            Login
-        </a>
-    <% } %>
+<script type="text/template" id="auth-template-login">
+    <a class="btn btn-primary" href="<%= uri %>">
+        Login
+    </a>
+</script>
+
+<script type="text/template" id="auth-template-logout">
+    <a class="btn btn-primary" href="<%= uri %>">
+        Logout
+    </a>
+</script>
+
+<script type="text/template" id="auth-template-authorize-logout">
+    <button class="btn btn-primary" id="request-authorization">
+        Authorize
+    </button>
+    <a class="btn" href="<%= uri %>">
+        Logout
+    </a>
+</script>
+
+<script type="text/template" id="auth-template-pending-logout">
+    <button class="btn disabled">
+        Pending
+    </button>
+    <a class="btn btn-primary" href="<%= uri %>">
+        Logout
+    </a>
+</script>
+
+<script type="text/template" id="auth-template-rejected-logout">
+    <button class="btn disabled">
+        Rejected
+    </button>
+    <a class="btn btn-primary" href="<%= uri %>">
+        Logout
+    </a>
 </script>

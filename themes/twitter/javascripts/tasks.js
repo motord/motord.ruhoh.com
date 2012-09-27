@@ -17,8 +17,8 @@ $(function(){
     // ----------
     window.Authorization =Backbone.Model.extend({
         defaults: {
-            authenticated: false,
             authorized: false,
+            template: null,
             uri: null
         },
 
@@ -32,7 +32,16 @@ $(function(){
     window.AuthorizationView = Backbone.View.extend({
         tagName: 'span',
         className: 'task-authorize',
-        template: _.template($('#authorization-template').html()),
+        templates: {'#auth-template-login': _.template($('#auth-template-login').html()),
+                    '#auth-template-logout':_.template($('#auth-template-logout').html()),
+                    '#auth-template-authorize-logout':_.template($('#auth-template-authorize-logout').html()),
+                    '#auth-template-pending-logout':_.template($('#auth-template-pending-logout').html()),
+                    '#auth-template-rejected-logout':_.template($('#auth-template-rejected-logout').html())
+        },
+
+        events: {
+            "click #request-authorization":  "requestAuthorization"
+        },
 
         initialize: function() {
             _.bindAll(this, 'render');
@@ -41,11 +50,15 @@ $(function(){
         },
 
         render: function() {
-            $(this.el).html(this.template(this.model.toJSON()));
+            if (this.model.get('template')){
+                $(this.el).html(this.templates[this.model.get('template')](this.model.toJSON()));
+            };
             return this;
+        },
+
+        requestAuthorization: function() {
+            this.model.save();
         }
-
-
     });
 
     window.Auth=new Authorization;
@@ -121,7 +134,9 @@ $(function(){
         tagName:  "li",
 
         // Cache the template function for a single item.
-        template: _.template($('#item-template').html()),
+        templates: {'#item-template': _.template($('#item-template').html()),
+                    '#item-template-readonly':_.template($('#item-template-readonly').html())
+        },
 
         // The DOM events specific to an item.
         events: {
@@ -131,7 +146,6 @@ $(function(){
             "keypress .task-input"      : "updateOnEnter"
         },
 
-        readonly_template: _.template($('#item-template-readonly').html()),
         // The TaskView listens for changes to its model, re-rendering. Since there's
         // a one-to-one correspondence between a **Task** and a **TaskView** in this
         // app, we set a direct reference on the model for convenience.
@@ -145,10 +159,10 @@ $(function(){
         // Re-render the contents of the task item.
         render: function() {
             if (Auth.get("authorized")){
-                $(this.el).html(this.template(this.model.toJSON()));
+                $(this.el).html(this.templates['#item-template'](this.model.toJSON()));
             }
             else {
-                $(this.el).html(this.readonly_template(this.model.toJSON()));
+                $(this.el).html(this.templates['#item-template-readonly'](this.model.toJSON()));
             };
             this.setTodo();
             return this;
@@ -222,7 +236,7 @@ $(function(){
         // loading any preexisting tasks that might be saved in *localStorage*.
         initialize: function() {
             var view = new AuthorizationView({model: Auth});
-            this.$(".task-authorize").append(view.render().el);
+            this.$(".title").append(view.render().el);
 
             _.bindAll(this, 'addOne', 'addAll', 'render');
 

@@ -62,9 +62,9 @@ def delete(referrer, id):
 @referrer_required
 def authorize(referrer):
     if not users.get_current_user():
-        return not_authenticated(referrer)
+        return login(referrer)
     else:
-        cache_key='%s/emails' % request.referrer
+        cache_key='%s/authorizations' % request.referrer
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if auth is None:
@@ -72,42 +72,63 @@ def authorize(referrer):
             if auth is not None:
                 cache.set(cache_key, auth)
         try:
-            i=auth.emails.index(email)
+            a=auth.approved.index(email)
         except ValueError:
-            i=-1
-        if i <> -1:
-            return authorized(referrer)
+            a=-1
+        if a <> -1:
+            return logout(referrer)
         else:
-            return authenticated_but_not_authorized(referrer)
+            try:
+                p=auth.pending.index(email)
+            except ValueError:
+                p=-1
+            if p <> -1:
+                return pending_logout(referrer)
+            else:
+                try:
+                    r=auth.rejected.index(email)
+                except ValueError:
+                    r=-1
+                if r <> -1:
+                    return rejected_logout(referrer)
+            return authorize_logout(referrer)
 
-@cached(key='%s/not_authorized')
-def authenticated_but_not_authorized(referrer):
-    return jsonify(authenticated=True, authorized=False, uri=users.create_logout_url(referrer))
+@cached(key='%s/authorize-logout')
+def authorize_logout(referrer):
+    return jsonify(authorized=False, template='#auth-template-authorize-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/authorized')
-def authorized(referrer):
-    return jsonify(authenticated=True, authorized=True, uri=users.create_logout_url(referrer))
+@cached(key='%s/pending-logout')
+def pending_logout(referrer):
+    return jsonify(authorized=False, template='#auth-template-pending-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/not_authenticated')
-def not_authenticated(referrer):
-    return jsonify(authenticated=False, authorized=False, uri=users.create_login_url(referrer))
+@cached(key='%s/rejected-logout')
+def rejected_logout(referrer):
+    return jsonify(authorized=False, template='#auth-template-rejected-logout', uri=users.create_logout_url(referrer))
+
+@cached(key='%s/logout')
+def logout(referrer):
+    return jsonify(authorized=True, template='#auth-template-logout', uri=users.create_logout_url(referrer))
+
+@cached(key='%s/login')
+def login(referrer):
+    return jsonify(authorized=False, template='#auth-template-login', uri=users.create_login_url(referrer))
 
 @referrer_required
 @login_required
 def authorization_request(referrer):
     if not users.get_current_user():
-        return not_authenticated(referrer)
+        return login(referrer)
     else:
-        ar=AuthRequest(referrer=referrer, email=db.Email(users.get_current_user().email()))
+        email=db.Email(users.get_current_user().email())
+        ar=AuthRequest(referrer=referrer, email=email)
         ar.put()
-        return authenticated_but_not_authorized(referrer)
+        auth=Authorization.get_by_key_name(request.referrer)
+        auth.pending.append(email)
+        auth.put()
+        return pending_logout(referrer)
 
 @admin_required
 def approve_authorization_request():
-    pass
-
-@admin_required
-def delete_authorization_request():
     pass
 
 @admin_required
@@ -122,4 +143,3 @@ def warmup():
 
     """
     return ''
-

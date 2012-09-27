@@ -33,12 +33,14 @@ class Task(db.Model):
         return self
 
 class Authorization(db.Model):
-    emails=db.ListProperty(db.Email)
+    approved = db.ListProperty(db.Email)
+    pending=db.ListProperty(db.Email)
+    rejected = db.ListProperty(db.Email)
+    created = db.DateTimeProperty(auto_now_add=True)
+    modified = db.DateTimeProperty(auto_now=True)
 
 class AuthRequest(db.Model):
     referrer = db.URLProperty(required=True)
     email = db.EmailProperty(required=True)
-    approved = db.BooleanProperty(default=False, required=True)
-    rejected = db.BooleanProperty(default=False, required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     modified = db.DateTimeProperty(auto_now=True)
