@@ -128,20 +128,45 @@ def authorization_request(referrer):
         return pending_logout(referrer)
 
 @admin_required
-def approve_authorization_request():
-    pass
+def approve_ticket(referrer, email):
+    auth=Authorization.get_by_key_name(referrer)
+    auth.pending.remove(email)
+    auth.approved.append(email)
+    auth.put()
+    cache_key='%s/authorizations' % referrer
+    cache.set(cache_key, auth)
 
 @admin_required
-def reject_authorization_request():
-    pass
+def reject_ticket(referrer, email):
+    auth=Authorization.get_by_key_name(referrer)
+    auth.pending.remove(email)
+    auth.rejected.append(email)
+    auth.put()
+    cache_key='%s/authorizations' % referrer
+    cache.set(cache_key, auth)
 
 @admin_required
 def read_tickets():
-    return 'OK'
+    pending=[]
+    i=0
+    q=Authorization.gql("WHERE pending != Null")
+    for a in q:
+        i += 1
+        for p in a.pending:
+            pending.append({'id' : i, 'referrer' : a.key().name(), 'email' : p})
+    return current_app.response_class(json.dumps(pending, indent=None if request.is_xhr else 2), mimetype='application/json')
 
 @admin_required
-def update_tickets():
-    return 'OK'
+def update_tickets(id):
+    referrer=request.json['referrer']
+    email=db.Email(request.json['email'])
+    action=request.json['action']
+    if action == 'approve':
+        approve_ticket(referrer, email)
+        return jsonify(status='approved')
+    elif action == 'reject':
+        reject_ticket(referrer, email)
+        return jsonify(status='rejected')
 
 @admin_required
 def admin_only():
