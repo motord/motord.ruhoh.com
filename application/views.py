@@ -132,6 +132,18 @@ def approve_authorization_request():
     pass
 
 @admin_required
+def reject_authorization_request():
+    pass
+
+@admin_required
+def read_tickets():
+    return 'OK'
+
+@admin_required
+def update_tickets():
+    return 'OK'
+
+@admin_required
 def admin_only():
     """This view requires an admin account"""
     return 'Super-seekrit admin page.'

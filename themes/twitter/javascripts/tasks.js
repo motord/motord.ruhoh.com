@@ -26,7 +26,7 @@ $(function(){
             this.fetch();
         },
 
-        url: '/authorize'
+        url: '/api/authorize'
     });
 
     window.AuthorizationView = Backbone.View.extend({

@@ -25,9 +25,6 @@ handlers:
 - url: /api/.*
   script: application.app
 
-- url: /authorize
-  script: application.app
-
 - url: /
   static_files: compiled/index.html
   upload: compiled/.*

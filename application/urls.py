@@ -22,11 +22,13 @@ app.add_url_rule('/api/', 'create', view_func=views.create, methods=['POST'])
 app.add_url_rule('/api/<int:id>', 'update', view_func=views.update, methods=['PUT'])
 app.add_url_rule('/api/<int:id>', 'delete', view_func=views.delete, methods=['DELETE'])
 
-app.add_url_rule('/authorize', 'authorize', view_func=views.authorize, methods=['GET'])
-app.add_url_rule('/authorize', 'authorization_request', view_func=views.authorization_request, methods=['POST'])
+app.add_url_rule('/api/authorize', 'authorize', view_func=views.authorize, methods=['GET'])
+app.add_url_rule('/api/authorize', 'authorization_request', view_func=views.authorization_request, methods=['POST'])
 # Contrived admin-only view example
 app.add_url_rule('/admin_only', 'admin_only', view_func=views.admin_only)
 
+app.add_url_rule('/api/tickets', 'read_tickets', view_func=views.read_tickets, methods=['GET'])
+app.add_url_rule('/api/tickets', 'update_tickets', view_func=views.update_tickets, methods=['PUT'])
 
 ## Error handlers
 ## Handle 404 errors
