@@ -24,8 +24,8 @@
     ],
     "gap": [
       "jquery-1.8.1.min.js",
-      "underscore.js",
-      "backbone.js",
+      "underscore-min.js",
+      "backbone-min.js",
       "tasks.js"
     ]
   },
