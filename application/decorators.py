@@ -42,11 +42,11 @@ def referrer_required(func):
         return func(request.referrer, *args, **kwargs)
     return decorated_view
 
-def cached(timeout=720 * 3600, key='%s'):
+def cached(timeout=720 * 3600, key='{0}'):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            cache_key = key % request.referrer
+            cache_key = key.format(request.referrer)
             rv = cache.get(cache_key)
             if rv is not None:
                 return rv
@@ -56,11 +56,11 @@ def cached(timeout=720 * 3600, key='%s'):
         return decorated_function
     return decorator
 
-def invalidate_cache(key='%s'):
+def invalidate_cache(key='{0}'):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            cache_key = key % request.referrer
+            cache_key = key.format(request.referrer)
             rv = f(*args, **kwargs)
             cache.delete(cache_key)
             return rv
@@ -70,7 +70,7 @@ def invalidate_cache(key='%s'):
 def authorization_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        cache_key='%s/approved' % request.referrer
+        cache_key='{0}/approved'.format(request.referrer)
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if users.is_current_user_admin():

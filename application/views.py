@@ -26,7 +26,7 @@ def say_hello(username):
     return jsonify(test=request.referrer)
 
 @referrer_required
-@cached(key='%s')
+@cached(key='{0}')
 def read(referrer):
     """List all tasks"""
     q=Task.gql("WHERE referrer = :1 ORDER BY created", referrer)
@@ -38,6 +38,7 @@ def read(referrer):
 @referrer_required
 @authorization_required
 @invalidate_cache()
+@invalidate_cache(key='tasks.json')
 def create(referrer):
     task=Task.construct_from_json(request.json, referrer)
     task.put()
@@ -46,6 +47,7 @@ def create(referrer):
 @referrer_required
 @authorization_required
 @invalidate_cache()
+@invalidate_cache(key='tasks.json')
 def update(referrer, id):
     task=Task.get_by_id(id)
     task.update_with_json(request.json)
@@ -54,6 +56,7 @@ def update(referrer, id):
 @referrer_required
 @authorization_required
 @invalidate_cache()
+@invalidate_cache(key='tasks.json')
 def delete(referrer, id):
     task=Task.get_by_id(id)
     bk=BookKeeping(referrer=task.referrer,
@@ -69,7 +72,7 @@ def authorize(referrer):
     if not users.get_current_user():
         return login(referrer)
     else:
-        cache_key='%s/authorizations' % request.referrer
+        cache_key='{0}/authorizations'.format(request.referrer)
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if auth is None:
@@ -98,23 +101,23 @@ def authorize(referrer):
                     return rejected_logout(referrer)
             return authorize_logout(referrer)
 
-@cached(key='%s/authorize-logout')
+@cached(key='{0}/authorize-logout')
 def authorize_logout(referrer):
     return jsonify(authorized=False, template='#auth-template-authorize-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/pending-logout')
+@cached(key='{0}/pending-logout')
 def pending_logout(referrer):
     return jsonify(authorized=False, template='#auth-template-pending-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/rejected-logout')
+@cached(key='{0}/rejected-logout')
 def rejected_logout(referrer):
     return jsonify(authorized=False, template='#auth-template-rejected-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/logout')
+@cached(key='{0}/logout')
 def logout(referrer):
     return jsonify(authorized=True, template='#auth-template-logout', uri=users.create_logout_url(referrer))
 
-@cached(key='%s/login')
+@cached(key='{0}/login')
 def login(referrer):
     return jsonify(authorized=False, template='#auth-template-login', uri=users.create_login_url(referrer))
 
@@ -138,7 +141,7 @@ def approve_ticket(referrer, email):
     auth.pending.remove(email)
     auth.approved.append(email)
     auth.put()
-    cache_key='%s/authorizations' % referrer
+    cache_key='{0}/authorizations'.format(referrer)
     cache.set(cache_key, auth)
 
 @admin_required
@@ -147,7 +150,7 @@ def reject_ticket(referrer, email):
     auth.pending.remove(email)
     auth.rejected.append(email)
     auth.put()
-    cache_key='%s/authorizations' % referrer
+    cache_key='{0}/authorizations'.format(referrer)
     cache.set(cache_key, auth)
 
 @admin_required
@@ -173,8 +176,16 @@ def update_tickets(id):
         reject_ticket(referrer, email)
         return jsonify(status='rejected')
 
+@cached(key='tasks.json')
 def read_tasks():
-    pass
+    q=Task.all()
+    tasks = {}
+    for task in q:
+        r=task.referrer
+        if r not in tasks:
+            tasks[r]=[]
+        tasks[r].append({'i' : task.key().id(), 't' : task.todo, 'a' : task.accomplished})
+    return current_app.response_class(json.dumps(tasks, indent=None if request.is_xhr else 2), mimetype='application/json')
 
 @admin_required
 def admin_only():
