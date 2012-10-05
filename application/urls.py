@@ -30,6 +30,7 @@ app.add_url_rule('/admin_only', 'admin_only', view_func=views.admin_only)
 app.add_url_rule('/api/tickets', 'read_tickets', view_func=views.read_tickets, methods=['GET'])
 app.add_url_rule('/api/tickets/<int:id>', 'update_tickets', view_func=views.update_tickets, methods=['PUT'])
 
+app.add_url_rule('/api/tasks.json', 'read_tasks', view_func=views.read_tasks, methods=['GET'])
 ## Error handlers
 ## Handle 404 errors
 #@app.errorhandler(404)

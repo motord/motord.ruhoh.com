@@ -44,3 +44,13 @@ class AuthRequest(db.Model):
     email = db.EmailProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     modified = db.DateTimeProperty(auto_now=True)
+
+class BookKeeping(db.Model):
+    referrer = db.URLProperty(required=True)
+    action=db.StringProperty(required=True)
+    before=db.StringProperty(required=True)
+    after=db.StringProperty()
+    accomplished_before = db.BooleanProperty(required=True)
+    accomplished_after = db.BooleanProperty()
+    editor = db.UserProperty(auto_current_user_add=True)
+    created = db.DateTimeProperty(auto_now_add=True)

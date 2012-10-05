@@ -16,7 +16,7 @@ from google.appengine.ext import db
 
 from flask import render_template, flash, url_for, redirect, request,jsonify, current_app, json
 
-from models import Task, Authorization, AuthRequest
+from models import Task, Authorization, AuthRequest, BookKeeping
 from decorators import login_required, admin_required, authorization_required, referrer_required, cached, invalidate_cache, cache
 
 
@@ -56,6 +56,11 @@ def update(referrer, id):
 @invalidate_cache()
 def delete(referrer, id):
     task=Task.get_by_id(id)
+    bk=BookKeeping(referrer=task.referrer,
+        action='delete',
+        before=task.todo,
+        accomplished_before=task.accomplished)
+    bk.put()
     task.delete()
     return 'DELETED'
 
@@ -167,6 +172,9 @@ def update_tickets(id):
     elif action == 'reject':
         reject_ticket(referrer, email)
         return jsonify(status='rejected')
+
+def read_tasks():
+    pass
 
 @admin_required
 def admin_only():
