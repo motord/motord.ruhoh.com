@@ -10,6 +10,8 @@ legend: '/assets/media/forest_icon.png'
     <script type="text/javascript" src="http://api.map.baidu.com/library/EventWrapper/1.2/src/EventWrapper.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
     <div style="width:640px;height:560px;border:1px solid gray" id="container"></div>
+    <hr>
+    {{{ duoshuo }}}
 </div>
 <div class="span4">
     <div id="query-route">
