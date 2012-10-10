@@ -7,7 +7,7 @@ Decorators for URL handlers
 
 from functools import wraps
 from google.appengine.api import users
-from flask import redirect, request
+from flask import redirect, request, jsonify
 from models import Authorization
 from google.appengine.ext import db
 
@@ -38,15 +38,27 @@ def referrer_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
         if not request.referrer:
-            return func('http://none.com', *args, **kwargs)
-        return func(request.referrer, *args, **kwargs)
+            try:
+                referrer=request.json['referrer']
+            except KeyError:
+                return jsonify(error='referrer missing')
+        else:
+            referrer=request.referrer
+        return func(referrer, *args, **kwargs)
     return decorated_view
 
 def cached(timeout=720 * 3600, key='{0}'):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            cache_key = key.format(request.referrer)
+            if not request.referrer:
+                try:
+                    referrer=request.json['referrer']
+                except KeyError:
+                    return jsonify(error='referrer missing')
+            else:
+                referrer=request.referrer
+            cache_key = key.format(referrer)
             rv = cache.get(cache_key)
             if rv is not None:
                 return rv
@@ -60,7 +72,14 @@ def invalidate_cache(key='{0}'):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            cache_key = key.format(request.referrer)
+            if not request.referrer:
+                try:
+                    referrer=request.json['referrer']
+                except KeyError:
+                    return jsonify(error='referrer missing')
+            else:
+                referrer=request.referrer
+            cache_key = key.format(referrer)
             rv = f(*args, **kwargs)
             cache.delete(cache_key)
             return rv
@@ -70,14 +89,21 @@ def invalidate_cache(key='{0}'):
 def authorization_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        cache_key='{0}/approved'.format(request.referrer)
+        if not request.referrer:
+            try:
+                referrer=request.json['referrer']
+            except KeyError:
+                return jsonify(error='referrer missing')
+        else:
+            referrer=request.referrer
+        cache_key='{0}/approved'.format(referrer)
         auth=cache.get(cache_key)
         email=db.Email(users.get_current_user().email())
         if users.is_current_user_admin():
             if auth is None:
-                auth=Authorization.get_by_key_name(request.referrer)
+                auth=Authorization.get_by_key_name(referrer)
                 if auth is None:
-                    auth=Authorization(key_name=request.referrer)
+                    auth=Authorization(key_name=referrer)
                     auth.put()
             try:
                 i=auth.approved.index(email)
@@ -89,7 +115,7 @@ def authorization_required(func):
             cache.set(cache_key, auth)
             return func(*args, **kwargs)
         if auth is None:
-            auth=Authorization.get_by_key_name(request.referrer)
+            auth=Authorization.get_by_key_name(referrer)
             if auth is not None:
                 cache.set(cache_key, auth)
         try:
@@ -98,5 +124,5 @@ def authorization_required(func):
             i=-1
         if i <> -1:
             return func(*args, **kwargs)
-        return redirect(users.create_login_url(request.url))
+        return jsonify(error='not authorized')
     return decorated_view

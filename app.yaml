@@ -33,6 +33,10 @@ handlers:
   static_files: compiled/\1/index.html
   upload: compiled/.*
 
+- url: /([0-9a-zA-z_-]*)/([0-9a-zA-z_-]*)/?
+  static_files: compiled/\1/\2/index.html
+  upload: compiled/.*
+
 - url: /(.*)
   static_files: compiled/\1
   upload: compiled/.*
