@@ -27,6 +27,15 @@
       "underscore-min.js",
       "backbone-min.js",
       "tasks.js"
+    ],
+    "plain": [
+      "jquery-1.8.1.min.js",
+      "underscore-min.js",
+      "backbone-min.js",
+      "raphael-min.js",
+      "wind-all-0.7.3.js",
+      "morris.min.js",
+      "json-to-table.js"
     ]
   },
   

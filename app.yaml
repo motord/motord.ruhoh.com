@@ -25,6 +25,9 @@ handlers:
 - url: /api/.*
   script: application.app
 
+- url: /aqua/.*
+  script: application.app
+
 - url: /
   static_files: compiled/index.html
   upload: compiled/.*

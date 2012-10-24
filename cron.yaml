@@ -1,4 +1,4 @@
 cron:
-#- description: scout one way rental deals
-#  url: /joyride/scout
-#  schedule: every 16 hours
+- description: scrape http://www.tcfishery.com/price/default.asp
+  url: /aqua/scrape
+  schedule: every 24 hours
