@@ -12,6 +12,6 @@ description:
 {{# tags }}
   <h2 id="{{name}}-ref">{{name}}</h2>
   {{# posts?to_posts }}
-    <li><a href="{{url}}">{{title}}</a></li>
+    <li><a href="{{url}}">{{#chinese}}{{ chinese }}{{/chinese}}{{^chinese}}{{ title }}{{/chinese}}</a></li>
   {{/ posts?to_posts }}
 {{/ tags }} 
