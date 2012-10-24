@@ -112,7 +112,7 @@ def scrape():
 
 @cached(key='/aqua/trend.json')
 @seafood.route('/aqua/trend.json')
-def market():
+def trend():
     q=Quotes.all()
     quotes=[]
     for quote in q:
@@ -125,7 +125,7 @@ def market():
     q=Quotes.all()
     quotes=[]
     for quote in q:
-        p=quote.prices[sorted(quote.prices.iterkeys())[0]]
-        d=sorted(quote.prices.iterkeys())[0]
-        quotes.append({'fish' : quote.fish, 'price' : {d:p}, 'image' : quote.image})
+        d=sorted(quote.prices.iterkeys(), key=lambda k : time.strptime(k,'%Y-%m-%d'), reverse=True)[0]
+        p=quote.prices[d]
+        quotes.append({'fish' : quote.fish, 'price' : p, 'date': d, 'image' : quote.image})
     return current_app.response_class(json.dumps(quotes, indent=None if request.is_xhr else 2), mimetype='application/json')
