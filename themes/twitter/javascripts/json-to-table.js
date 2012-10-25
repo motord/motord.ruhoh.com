@@ -43,12 +43,10 @@ String.prototype.format = function()
  * 
  * @return string Converted JSON to HTML table
  */
-function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText)
+function ConvertJsonToTable(parsedJson, tableId, tableClassName, intepretLink)
 {
     //Patterns for links and NULL value
     var italic = '<i>{0}</i>';
-    var link = linkText ? '<a href="{0}">' + linkText + '</a>' :
-                          '<a href="{0}">{0}</a>';
 
     //Pattern for table                          
     var idMarkup = tableId ? ' id="' + tableId + '"' :
@@ -116,7 +114,7 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText)
                         var isUrl = urlRegExp.test(value) || javascriptRegExp.test(value);
 
                         if(isUrl)   // If value is URL we auto-create a link
-                            tbCon += tdRow.format(link.format(value));
+                            tbCon += tdRow.format(intepretLink(value));
                         else
                         {
                             if(value){

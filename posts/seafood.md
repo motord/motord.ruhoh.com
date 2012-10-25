@@ -33,10 +33,20 @@ tags: ['data', 'visualization']
                   trend: data.trend
               };
         }));
+        var composeJavascriptLink = function(message) {
+            js= "javascript:console.log('{0}');";
+            return js.format(message);
+        };
+        var intepretJavascriptLink = function(url) {
+            var pattern=/^javascript:console.log\(\'([\s\S]*)\'\);$/;
+            var message=url.match(pattern)[1];
+            var link = '<a href="{0}">' + message + '</a>';
+            return link.format(url);
+        };
         var populateAsync = eval(Wind.compile("async", function () {
                var data=$await(intersectAsync());
-               var json=_.map(data.market, function(num){ return {'product': num.fish, 'price': num.price, 'date': num.date}; });
-               $("#market").html(ConvertJsonToTable(json, 'jsonTable', 'table table-striped', 'Download'));
+               var json=_.map(data.market, function(num){ return {'product': composeJavascriptLink(num.fish), 'price': num.price, 'date': num.date}; });
+               $("#market").html(ConvertJsonToTable(json, 'jsonTable', 'table table-striped table-condensed', intepretJavascriptLink));
          }));
          populateAsync().start();
     </script>

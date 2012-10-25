@@ -116,7 +116,7 @@ def trend():
     q=Quotes.all()
     quotes=[]
     for quote in q:
-        quotes.append({'fish' : quote.fish, 'prices' : quote.prices})
+        quotes.append({'fish' : quote.fish, 'prices' : quote.prices, 'image' : quote.image})
     return current_app.response_class(json.dumps(quotes, indent=None if request.is_xhr else 2), mimetype='application/json')
 
 @cached(key='/aqua/market.json')
@@ -127,5 +127,5 @@ def market():
     for quote in q:
         d=sorted(quote.prices.iterkeys(), key=lambda k : time.strptime(k,'%Y-%m-%d'), reverse=True)[0]
         p=quote.prices[d]
-        quotes.append({'fish' : quote.fish, 'price' : p, 'date': d, 'image' : quote.image})
+        quotes.append({'fish' : quote.fish, 'price' : p, 'date': d})
     return current_app.response_class(json.dumps(quotes, indent=None if request.is_xhr else 2), mimetype='application/json')
