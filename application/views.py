@@ -199,3 +199,11 @@ def warmup():
 
     """
     return ''
+
+@admin_required
+def relo_task():
+    q=Task.gql("WHERE referrer = :1 ORDER BY created", 'http://gap.samdeha.com/tbd/')
+    for task in q:
+        task.referrer='http://gap.samdeha.com/tbd'
+        task.put()
+    return 'task relocated'

@@ -43,8 +43,8 @@ tags: ['data', 'visualization']
         };
         var intersectAsync = eval(Wind.compile("async", function () {
               var data=$await(Wind.Async.Task.whenAll({
-                      market: getJSONAsync('/aqua/market.json'),
-                      trend: getJSONAsync('/aqua/trend.json')
+                      market: getJSONAsync('/api/aqua/market.json'),
+                      trend: getJSONAsync('/api/aqua/trend.json')
                   }));
               return {
                   market: data.market,

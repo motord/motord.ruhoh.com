@@ -31,6 +31,7 @@ app.add_url_rule('/api/tickets', 'read_tickets', view_func=views.read_tickets, m
 app.add_url_rule('/api/tickets/<int:id>', 'update_tickets', view_func=views.update_tickets, methods=['PUT'])
 
 app.add_url_rule('/api/tasks.json', 'read_tasks', view_func=views.read_tasks, methods=['GET'])
+#app.add_url_rule('/api/relotask', 'relo_task', view_func=views.relo_task, methods=['GET'])
 ## Error handlers
 ## Handle 404 errors
 #@app.errorhandler(404)

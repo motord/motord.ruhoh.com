@@ -1,4 +1,4 @@
 cron:
 - description: scrape http://www.tcfishery.com/price/default.asp
-  url: /aqua/scrape
+  url: /api/aqua/scrape
   schedule: every 24 hours
