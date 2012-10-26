@@ -14,6 +14,7 @@ from flask import jsonify, json
 import time, datetime
 from decorators import admin_required, invalidate_cache, cached, cache
 from application.datastore import JsonProperty
+import re
 
 class Quotes(db.Model):
     fish = db.StringProperty(required=True)
@@ -96,7 +97,7 @@ def fishing():
             q=Quotes.gql("WHERE fish = :1", cache_key)
             v=q.get()
             if v is None:
-                v=Quotes(fish=fish['name'], prices={}, image=fish['image'])
+                v=Quotes(fish=fish['name'], prices={}, image=re.sub(r'..(.*)',r'http://www.tcfishery.com\1',fish['image']))
         v.prices[fish['date']]=fish['price']
         updates[cache_key]=v
     for v in updates.values():

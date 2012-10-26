@@ -51,32 +51,32 @@ tags: ['data', 'visualization']
                   trend: data.trend
               };
         }));
-        var trend=Aqua.trend=[];
+        var trend=[];
+        var plots=[];
         Aqua.graph = function(fish) {
             var template=_.template($('#graph-template').html());
             $('#graphModal').html(template({name: fish}));
-            $('#graphModal').modal();
             var data=_.find(trend, function(t) { return t.fish==fish});
             var keys=_.sortBy(_.keys(data.prices), function(date){
-                return Date(date);
+                return new Date(date);
             });
-            var plot=[];
+            plots=[];
             for (i=0; i<keys.length; i++)
             {
                 var key=keys[i];
-                plot[i]={key:data.prices[key]};
+                plots[i]={'p': data.prices[key], 't': key};
             };
-            var plot=_.map(data.prices, function(num){ return {'p': num, 't': key};});
-            $('#graphModal').on('shown', function () {
-                Morris.Line({
-                  element: 'morris',
-                  data: plot,
-                  xkey: 't',
-                  ykeys: ['p'],
-                  labels: ['Price']
-                });
-            });
+            $('#graphModal').modal();
         };
+        $('#graphModal').on('shown', function () {
+            Morris.Line({
+              element: 'morris',
+              data: plots,
+              xkey: 't',
+              ykeys: ['p'],
+              labels: ['Price']
+            });
+        });
         var composeJavascriptLink = function(message) {
             js= "javascript:Aqua.graph('{0}');";
             return js.format(message);
