@@ -6,4 +6,5 @@ description:
 categories:
 layout: 'gap'
 tasks : true
+tags: ['travel']
 ---

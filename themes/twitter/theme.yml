@@ -36,7 +36,17 @@
       "raphael-min.js",
       "wind-all-0.7.3.js",
       "morris.min.js",
-      "json-to-table.js"
+      "json-to-table.js",
+      "stream.js",
+      "flotr2.min.js",
+      "highcharts.src.js",
+      "highstock.src.js",
+      "d3.v2.min.js",
+      "gauss.min.js",
+      "crossfilter.min.js",
+      "moment.min.js",
+      "pikaday.min.js",
+      "rsvp.min.js"
     ]
   },
   

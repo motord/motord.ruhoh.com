@@ -104,15 +104,15 @@ def fishing():
         v.put()
         cache.set(v.fish, v)
 
+@seafood.route('/api/aqua/scrape')
 @admin_required
 @invalidate_cache(key='/api/aqua/market.json')
-@seafood.route('/api/aqua/scrape')
 def scrape():
     deferred.defer(fishing)
     return 'Fishing'
 
-@cached(key='/api/aqua/trend.json')
 @seafood.route('/api/aqua/trend.json')
+@cached(key='/api/aqua/trend.json')
 def trend():
     q=Quotes.all()
     quotes=[]
@@ -120,8 +120,8 @@ def trend():
         quotes.append({'fish' : quote.fish, 'prices' : quote.prices, 'image' : quote.image})
     return current_app.response_class(json.dumps(quotes, indent=None if request.is_xhr else 2), mimetype='application/json')
 
-@cached(key='/api/aqua/market.json')
 @seafood.route('/api/aqua/market.json')
+@cached(key='/api/aqua/market.json')
 def market():
     q=Quotes.all()
     quotes=[]

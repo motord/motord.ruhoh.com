@@ -6,6 +6,7 @@ description:
 categories:
 layout: 'gap'
 tasks : true
+tags: ['travel']
 ---
 【五台山】
 
