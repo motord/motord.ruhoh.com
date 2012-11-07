@@ -21,6 +21,7 @@ class Quotes(db.Model):
     prices = JsonProperty(required=True)
     image = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
+    modified = db.DateTimeProperty(auto_now=True)
 
     def jsonify(self):
         return jsonify(id = self.key().id(), name = self.fish, price=self.price)

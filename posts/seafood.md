@@ -58,7 +58,7 @@ tags: ['data', 'visualization']
             $('#graphModal').html(template({name: fish}));
             var data=_.find(trend, function(t) { return t.fish==fish});
             var keys=_.sortBy(_.keys(data.prices), function(date){
-                return new Date(date);
+                return Date.parse(date);
             });
             plots=[];
             for (i=0; i<keys.length; i++)

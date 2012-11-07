@@ -8,6 +8,7 @@ author :
   feedburner : feedname
 
 navigation :
+  - projects/android-app.md
   - archive.html
   - tags.html
   - categories.html

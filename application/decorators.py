@@ -54,8 +54,8 @@ def cached(timeout=720 * 3600, key='{0}'):
             if not request.referrer:
                 try:
                     referrer=request.json['referrer']
-                except KeyError:
-                    return jsonify(error='referrer missing')
+                except (KeyError, TypeError):
+                    referrer=None
             else:
                 referrer=request.referrer
             cache_key = key.format(referrer)
@@ -75,8 +75,8 @@ def invalidate_cache(key='{0}'):
             if not request.referrer:
                 try:
                     referrer=request.json['referrer']
-                except KeyError:
-                    return jsonify(error='referrer missing')
+                except (KeyError, TypeError):
+                    referrer=None
             else:
                 referrer=request.referrer
             cache_key = key.format(referrer)
