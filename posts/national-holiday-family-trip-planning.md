@@ -13,11 +13,9 @@ tasks : true
 
 <div>
     <h3>浙江遗珠</h3>
-    <pre><code id="zj-obscure">
-    </code></pre>
+    <pre><code id="zj-obscure"></code></pre>
     <h3>江苏遗珠</h3>
-    <pre><code id="js-obscure">
-    </code></pre>
+    <pre><code id="js-obscure"></code></pre>
 </div>
 <div>
     <script src="/assets/twitter/javascripts/wind-all-0.7.3.js"></script>

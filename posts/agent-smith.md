@@ -22,3 +22,7 @@ categories:
 [https://github.com/NV/chrome-devtools-autosave.git](https://github.com/NV/chrome-devtools-autosave.git)
 
 [https://github.com/a85/POSTMan-Chrome-Extension.git](https://github.com/a85/POSTMan-Chrome-Extension.git)
+
+[tampermonkey](http://code.google.com/p/tampermonkey/)
+
+<pre><code>_.each(_.filter($('td[align="right"]'), function(td){var html=$(td).html();suffix='MiB';return html.indexOf(suffix, html.length - suffix.length) !== -1;}), function(td){$(td).parent().remove()})</code></pre>
