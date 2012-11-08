@@ -108,6 +108,7 @@ def fishing():
 @seafood.route('/api/aqua/scrape')
 @admin_required
 @invalidate_cache(key='/api/aqua/market.json')
+@invalidate_cache(key='/api/aqua/trend.json')
 def scrape():
     deferred.defer(fishing)
     return 'Fishing'
